@@ -1,6 +1,4 @@
-def main():
-    print("Hello from langgraph-proyecto-learning!")
-
+from chat import run_chat_loop
 
 if __name__ == "__main__":
-    main()
+    run_chat_loop()

@@ -9,7 +9,7 @@ memory = MemorySaver()
 tavily_tool = TavilySearch(max_results=2)
 tools = [tavily_tool]
 
-llm = init_chat_model("gpt-4o", temperature=0.9)
+llm = init_chat_model("llama-3.3-70b-versatile", model_provider="groq", temperature=0.9)
 llm_with_tools = llm.bind_tools(tools)
 
 graph_config = {
