@@ -1,44 +1,62 @@
-# LangGraph Proyecto Learning
+# 🤖 AI Agent con LangGraph + Groq + Tavily
 
-Proyecto de aprendizaje sobre **LangGraph** — un framework para construir aplicaciones con agentes de IA usando grafos de estado.
+Agente conversacional con capacidad de búsqueda web en tiempo real, construido con **LangGraph** para orquestar el flujo de estados del agente.
+
+## ¿Qué hace?
+
+- Mantiene conversaciones con memoria de contexto persistente (SQLite)
+- Realiza búsquedas web automáticamente cuando necesita información actualizada (via Tavily)
+- Usa **Llama 3.3 70B** (Groq) como modelo de lenguaje — respuestas rápidas y gratuitas
+- Arquitectura basada en grafos de estado con LangGraph
 
 ## Stack
 
-- **LangGraph** — orquestación de agentes basada en grafos
-- **Groq (Llama 3.3 70B)** — modelo de lenguaje
-- **Tavily** — búsqueda web para los agentes
-- **Python 3.12**
+| Tecnología | Uso |
+|---|---|
+| LangGraph | Orquestación del agente (grafo de estados) |
+| Groq API (Llama 3.3 70B) | Modelo de lenguaje |
+| Tavily | Búsqueda web en tiempo real |
+| SQLite | Memoria persistente entre sesiones |
+| Python 3.12 + uv | Lenguaje y gestor de dependencias |
 
-## Setup
+## Arquitectura
+
+```
+state.py     →  Define el estado del grafo (mensajes, contexto)
+config.py    →  Configura LLM, herramientas y memoria
+graph.py     →  Define el grafo de LangGraph (nodos + aristas)
+chat.py      →  Loop interactivo de conversación
+main.py      →  Punto de entrada
+```
+
+## Instalación
 
 ```bash
-# Crear entorno virtual e instalar dependencias
+# Clonar el repo
+git clone https://github.com/Fcktor/langgraph-proyecto-learning
+cd langgraph-proyecto-learning
+
+# Instalar dependencias con uv
 uv sync
 
 # Activar entorno
 source .venv/bin/activate
+
+# Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tus API keys
 ```
 
 ## Variables de entorno
 
-Crea un archivo `.env` en la raíz del proyecto:
-
 ```env
-GROQ_API_KEY=gsk_tu-clave
-TAVILY_API_KEY=tvly-dev-tu-clave
+GROQ_API_KEY=tu_api_key_de_groq
+TAVILY_API_KEY=tu_api_key_de_tavily
 ```
 
-## Estructura
-
-```
-├── chat.py         # Bucle interactivo del chat
-├── config.py       # Configuración del LLM, herramientas y memoria
-├── graph.py        # Definición del grafo de LangGraph
-├── main.py         # Punto de entrada
-├── state.py        # Estado del grafo
-├── .env            # Variables de entorno (no se sube a Git)
-└── pyproject.toml  # Dependencias y metadata
-```
+Ambas APIs tienen **tier gratuito**:
+- Groq: https://console.groq.com
+- Tavily: https://app.tavily.com
 
 ## Uso
 
@@ -46,4 +64,13 @@ TAVILY_API_KEY=tvly-dev-tu-clave
 python main.py
 ```
 
-Escribe `exit`, `quit` o `q` para salir.
+Escribe tu mensaje y presiona Enter. Para salir: `exit`, `quit` o `q`.
+
+El historial de conversaciones se guarda automáticamente en `conversations.db`.
+
+## Próximos pasos
+
+- [ ] Agregar más herramientas: calculadora, ejecutor de código
+- [ ] Interfaz web con Streamlit o Gradio
+- [ ] Soporte multi-conversación con thread_id dinámico
+- [ ] Tests unitarios para nodos del grafo
